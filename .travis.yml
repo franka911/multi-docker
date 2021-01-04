@@ -14,12 +14,10 @@ after_success:
   - docker build -t franka/multi-nginx ./nginx
   - docker build -t franka/multi-server ./server
   - docker build -t franka/multi-worker ./worker
-  
-# login to docker account
-- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID"  --password-stdin
+  # login to docker account
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID"  --password-stdin
   # push image do docker cli
-
-- docker push franka/multi-client
-- docker push franka/multi-nginx
-- docker push franka/multi-server
-- docker push franka/multi-worker
+  - docker push franka/multi-client
+  - docker push franka/multi-nginx
+  - docker push franka/multi-server
+  - docker push franka/multi-worker
