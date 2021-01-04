@@ -1,0 +1,24 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t franka/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true franka/react-test npm test
+
+after_success:
+  - docker build -t franka/multi-client ./client
+  - docker build -t franka/multi-nginx ./nginx
+  - docker build -t franka/multi-server ./server
+  - docker build -t franka/multi-worker ./worker
+  
+# login to docker account
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID"  --password-stdin
+  # push image do docker cli
+
+- docker push franka/multi-client
+- docker push franka/multi-nginx
+- docker push franka/multi-server
+- docker push franka/multi-worker
